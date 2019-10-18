@@ -1,11 +1,11 @@
 # apbot
 
-apbot is Discord bot that can create GitHub. It is is written in javascript and
-runs on anything that has nodejs.
+apbot is Discord bot that can create GitHub Issues. It is is written in Javascript and
+runs on anything that has Node.js.
 
-The recommended way to run the bot is within a container, preferrably handled 
-by podman (but you can of course use Docker, or whichever container enghine you
-prefer). 
+The recommended way to run the bot is within a container, preferably handled 
+by podman (but you can of course use Docker, or whichever container engine you
+prefer). One major advantage of podman is that you can run it as a non-privileged user (ie. non-root), also I'm a Red Hat fanboy. 
 
 ## Prerequisites 
 
@@ -30,7 +30,7 @@ $ > < edit apbot_config >
 $ > podman run --env-file apbot_config apbot
 ```
 
-Yep, it's that simple. On other OS, you would simply do the same thing. Once you
+Yep, it's that simple. On other OS's, you would simply do the same thing. Once you
 have the container, just edit the apbot_config and start the container. 
 
 If you have trouble starting the container, add 
