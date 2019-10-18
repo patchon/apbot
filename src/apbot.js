@@ -1,6 +1,6 @@
-// 
-// Simple bot for discord to create GitHub issues, 
-// 
+//
+// Simple bot for discord to create GitHub issues,
+//
 
 const discord = require('discord.js');
 const octokit = require('@octokit/rest');
@@ -16,7 +16,7 @@ const tmpl    = require('./constants.js');
     wrn: "WRN",
     err: "ERR",
   }
-  
+
   // Everything is from env's,,
   const config = {
     dc: {
@@ -30,11 +30,11 @@ const tmpl    = require('./constants.js');
     }
   }
 
-  // Make sure we have needed vars, 
+  // Make sure we have needed vars,
   logger(debug.inf, tmpl.cli_inf_start);
   preflight(config);
 
-  // Create clients, 
+  // Create clients,
   const clients = {
     dc: {
       client: new discord.Client()
@@ -44,30 +44,30 @@ const tmpl    = require('./constants.js');
     }
   }
 
-  // Setup listeners, 
+  // Setup listeners,
   setup_rdy_listener(clients.dc.client, config.dc.channel);
   setup_msg_listener(clients, config);
 
-  // Login to discord, 
+  // Login to discord,
   login(clients.dc.client, config.dc.token);
 }());
 
 
-// Function for logging in to discord, 
+// Function for logging in to discord,
 function login(client, token){
-  
+
   client.login(token).then(function(){
-    logger(debug.inf, tmpl.cli_inf_auth_success); 
+    logger(debug.inf, tmpl.cli_inf_auth_success);
   }).catch(function(err){
     logger(debug.err, err);
   });
 }
 
 
-// Function for setting up the ready listener 
+// Function for setting up the ready listener
 function setup_rdy_listener(client, announce_channel){
 
-  // Bind ready event, 
+  // Bind ready event,
   client.once('ready', () => {
     logger(debug.inf, tmpl.cli_inf_ready);
 
@@ -78,43 +78,43 @@ function setup_rdy_listener(client, announce_channel){
       logger(debug.err, tmpl.cli_err_channel_not_found
                          .replace('{PH_ANNOUNCE_CHANNEL}', announce_channel));
     }
-  
+
     if (!botname){
       logger(debug.err, tmpl.cli_err_unexpected_api_response);
     }
-    
+
     logger(debug.dbg, tmpl.cli_dbg_channel_botname
                         .replace('{PH_CHANNEL}', announce_channel)
                         .replace('{PH_BOTNAME}', botname));
 
     channel.send(tmpl.cli_inf_welcome_msg
                   .replace('{PH_BOTNAME}', botname));
-  }); 
+  });
 }
 
 
-// Function for setting up the message listerner, 
+// Function for setting up the message listerner,
 function setup_msg_listener(clients, config){
 
-  // Bind message events, 
+  // Bind message events,
   clients.dc.client.on('message', msg => {
-    const prefix = "!"; 
+    const prefix = "!";
 
-    // Make sure to ignore regular messages and me self, 
+    // Make sure to ignore regular messages and me self,
     if (!msg.content.startsWith(prefix) || msg.author.bot){
       return;
     }
 
-    // Parse message and arguments 
+    // Parse message and arguments
     const cmd  = parse_cmd(msg);
     const args = parse_args(msg);
 
-    // Simple switch to do whatever we are asked to, 
-    switch(cmd) {   
+    // Simple switch to do whatever we are asked to,
+    switch(cmd) {
       case "help":
         bot_cmd_help(msg);
         break;
-      
+
       case "issue":
         bot_cmd_issue(clients.gh.client, config.gh, msg, args, cmd);
         break;
@@ -127,7 +127,7 @@ function setup_msg_listener(clients, config){
 }
 
 
-// Bot-function for the !help command, 
+// Bot-function for the !help command,
 function bot_cmd_help(msg){
 
   const embed = tmpl.bot_cmd_help
@@ -139,7 +139,7 @@ function bot_cmd_help(msg){
 }
 
 
-// Bot-function for the !issue command, 
+// Bot-function for the !issue command,
 function bot_cmd_issue(client, config, msg, args, cmd){
 
   const num_args = 2;
@@ -150,7 +150,7 @@ function bot_cmd_issue(client, config, msg, args, cmd){
                       .replace('{PH_NUM}', num_args)
                       .replace('{PH_NUM_GIVEN}', args.length)
     );
-  
+
     return
   }
 
@@ -158,8 +158,8 @@ function bot_cmd_issue(client, config, msg, args, cmd){
   const desc   = args[1];
   const embed  = JSON.parse(JSON.stringify(tmpl.bot_cmd_issue_creating));
   let   labels = [];
-  
-  // Split labels, 
+
+  // Split labels,
   if (args[2]){
     labels = args[2].split(",");
     labels = labels.map(str => str.trim());
@@ -167,16 +167,19 @@ function bot_cmd_issue(client, config, msg, args, cmd){
   }else{
     embed.fields.pop();
   }
-  
+
   embed.title = embed.title
-                 .replace('{PH_USER}', msg.author.username); 
-  
+                 .replace('{PH_USER}', msg.author.username);
+
   embed.fields[0].name  = embed.fields[0].name
-                           .replace('{PH_TITLE}', title); 
+                           .replace('{PH_TITLE}', title);
   embed.fields[0].value = embed.fields[0].value
-                           .replace('{PH_DESC}', desc); 
-  
-  // Create the actual github issue, 
+                           .replace('{PH_DESC}', desc);
+
+  // Let the user know that we are on roll,
+  msg.channel.send({embed});
+
+  // Create the actual github issue,
   client.issues.create({
     owner: config.username,
     repo: config.repo,
@@ -185,7 +188,7 @@ function bot_cmd_issue(client, config, msg, args, cmd){
     labels: labels
   }).then(function(resp){
     logger(debug.dbg, tmpl.bot_cmd_issue_success);
-    msg.channel.send(tmpl.bot_cmd_issue_success);                         
+    msg.channel.send(tmpl.bot_cmd_issue_success);
   }).catch(function(err){
     logger(debug.wrn, err);
     msg.channel.send(tmpl.bot_cmd_issue_creating_err
@@ -194,7 +197,7 @@ function bot_cmd_issue(client, config, msg, args, cmd){
 }
 
 
-// Function to make sure we have what we need, 
+// Function to make sure we have what we need,
 function preflight(config){
 
   let err = false;
@@ -203,7 +206,7 @@ function preflight(config){
   logger(debug.dbg, tmpl.cli_dbg_env_chk)
   for (var app in config) {
     for (var env in config[app]){
-      
+
       if(config[app][env]){
         logger(debug.dbg, tmpl.cli_dbg_env_msg
                        .replace('{PH_ENV}', app.concat('_', env).toUpperCase())
@@ -223,13 +226,13 @@ function preflight(config){
 }
 
 
-// Function to parse args, returns a list of arguments 
+// Function to parse args, returns a list of arguments
 function parse_args(msg){
 
   logger(debug.dbg, tmpl.cli_dbg_parse_arg_try
                      .replace('{PH_STR}', msg.content));
 
-  // Construct array based on ", remove first element, as well as empty ones, 
+  // Construct array based on ", remove first element, as well as empty ones,
   let args = msg.content.split("\"");
   if (args[0] === msg.content){
     logger(debug.dbg, tmpl.cli_dbg_parse_arg_retry);
@@ -238,7 +241,7 @@ function parse_args(msg){
     args = args.filter(str => str.trim() != '');
   }
 
-  // Remove command, 
+  // Remove command,
   args.shift();
 
   if (args.length === 0){
@@ -247,12 +250,12 @@ function parse_args(msg){
     logger(debug.dbg, tmpl.cli_dbg_parse_arg_res
       .replace('{PH_ARGS}', args));
   }
-  
+
   return args;
 }
 
 
-// Function to parse the actual command given, returns the command  
+// Function to parse the actual command given, returns the command
 function parse_cmd(msg){
 
   logger(debug.dbg, tmpl.cli_dbg_parse_cmd_try
@@ -260,7 +263,7 @@ function parse_cmd(msg){
 
   const str = msg.content
   let cmd = str.substr(1,str.indexOf(' ')).trim();
-  
+
   // If we can't extract substring based on " ", we simply dont have any args
   if (!cmd){
     cmd = str.substr(1);
@@ -277,13 +280,13 @@ function logger(level,str){
 
   const date_str = new Date().toISOString().slice(0,19).replace('T',' ');
 
-  // Do not debug unless asked, 
+  // Do not debug unless asked,
   if (debug.level === 'DBG' && debug.ON){
     return;
   }
 
   console.log(date_str+" [ "+level+" ] "+str);
-  
+
   // Always exit on error,
   if (level === 'ERR'){
     process.exit(1);
