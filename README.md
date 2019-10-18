@@ -27,7 +27,7 @@ $ > git clone https://github.com/patchon/apbot
 $ > cd apbot
 $ > podman build . -t apbot
 $ > < edit apbot_config >
-$ > podman run --env-file apbot_config apbot
+$ > podman run --env-file apbot_config --rm -dt apbot
 ```
 
 Yep, it's that simple. On other OS's, you would simply do the same thing. Once you
@@ -50,6 +50,9 @@ from the channel where you and the bot chill.
 
 ## Contributing
 Pull requests are welcome. 
+
+## Mentions
+This bot is inspired by [https://github.com/LeagueSandbox/IssueBot](https://github.com/LeagueSandbox/IssueBot)
 
 ## License
 [GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
