@@ -1,13 +1,13 @@
 
 //
-// Templating constants, 
+// Templating constants,
 //
 
 
-// Bot messages, 
+// Bot messages,
 const bot_cmd_err = `
 \`\`\`diff
-- [ ERR ] Command '{PH_CMD}' was not understood, try !help. 
+- [ ERR ] Command '{PH_CMD}' was not understood, try !help.
 \`\`\`
 `;
 
@@ -53,17 +53,23 @@ const bot_cmd_issue_creating = {
   ]
 };
 
+const bot_cmd_issue_footer = `
+
+---
+Beep, boop, I'm [a bot](https://github.com/patchon/apbot).
+This issue was created by **{PH_USERNAME}** from the channel **#{PH_CHN}**.`;
+
 const bot_cmd_issue_creating_err = `
 \`\`\`diff
-- GitHub returned an error,  
+- GitHub returned an error,
 
 {PH_ERR}
 \`\`\`
 `;
 
-const bot_cmd_issue_success   = "Successfully created the GitHub issue 👌"; 
+const bot_cmd_issue_success   = "Successfully created the GitHub issue 👌";
 
-// Debug messages 
+// Debug messages
 const cli_dbg_channel_botname = "Found channel '#{PH_CHANNEL}' and my name is "+
                                 "'{PH_BOTNAME}'."
 const cli_dbg_env_msg         = "Environment variable '{PH_ENV}' is set to '{PH_VAL}'."
@@ -76,12 +82,12 @@ const cli_dbg_parse_arg_retry = "Splitted string on \", yields zero results, "  
                                 "behaviour.";
 const cli_dbg_parse_arg_res   = "Parsed following arguments '{PH_ARGS}'."
 const cli_dbg_parse_arg_try   = "Parsing arguments from string '{PH_STR}'."
-                                
+
 const cli_dbg_parse_cmd_res   = "Parsed the following command '{PH_CMD}'."
 const cli_dbg_parse_cmd_try   = "Parsing command from string '{PH_STR}'."
 
 
-// Ifno messages, 
+// Ifno messages,
 const cli_inf_auth_success = 'Successfully authenticated to Discord.'
 const cli_inf_ready        = "Bot recieved ready event from Discord server";
 const cli_inf_start        = "Starting bot.";
@@ -89,10 +95,10 @@ const cli_inf_welcome_msg  = "Hello, my name is **{PH_BOTNAME}** and I just "   
                              "came online. Please type `!help` for instructions "+
                              "on how to use me.";
 
-// Error messages, 
+// Error messages,
 const cli_err_channel_not_found       = "Could not find channel specified in "  +
                                         "environment variable 'DISCORD_CHANNEL'"+
-                                        "({PH_ANNOUNCE_CHANNEL})."                            
+                                        "({PH_ANNOUNCE_CHANNEL})."
 const cli_err_env_msg                 = "Environment variable '{PH_ENV}' not set."
 const cli_err_unexpected_api_response = "Unexpected response from Dicord API.";
 
@@ -104,6 +110,7 @@ module.exports = {
 
   bot_cmd_issue_arg_err,
   bot_cmd_issue_creating,
+  bot_cmd_issue_footer,
   bot_cmd_issue_creating_err,
   bot_cmd_issue_success,
 

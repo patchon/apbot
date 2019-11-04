@@ -26,7 +26,8 @@ const tmpl    = require('./constants.js');
     gh: {
       token: process.env.GH_TOKEN,
       username: process.env.GH_USERNAME,
-      repo: process.env.GH_REPO
+      repo: process.env.GH_REPO,
+      repo_owner: process.env.GH_REPO_OWNER
     }
   }
 
@@ -154,8 +155,14 @@ function bot_cmd_issue(client, config, msg, args, cmd){
     return
   }
 
-  const title  = args[0];
-  const desc   = args[1];
+  const title    = args[0];
+  const username = msg.author.username;
+  const channel  = msg.channel.name;
+  let desc = args[1];
+      desc += tmpl.bot_cmd_issue_footer
+               .replace('{PH_USERNAME}', username)
+               .replace('{PH_CHN}', channel)
+
   const embed  = JSON.parse(JSON.stringify(tmpl.bot_cmd_issue_creating));
   let   labels = [];
 
@@ -181,7 +188,7 @@ function bot_cmd_issue(client, config, msg, args, cmd){
 
   // Create the actual github issue,
   client.issues.create({
-    owner: config.username,
+    owner: config.repo_owner,
     repo: config.repo,
     title: title,
     body: desc,
