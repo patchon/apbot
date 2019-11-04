@@ -4,6 +4,7 @@
 GH_TOKEN=<your-personal-token-with-access-to-github-repository>
 GH_USERNAME=<your-github-username-associated-with-the-token>
 GH_REPO=<your-github-repository>
+GH_REPO_OWNER=<your-github-repository>
 DC_TOKEN=<your-discord-bot-token>
 DC_CHANNEL=<your-discord-channel>
 
