@@ -27,7 +27,7 @@ $ > git clone https://github.com/patchon/apbot
 $ > cd apbot
 $ > podman build . -t apbot
 $ > < edit apbot_config >
-$ > podman run --env-file apbot_config --rm -dt apbot
+$ > podman run --env-file apbot_config --rm -dt --name apbot apbot
 ```
 
 Yep, it's that simple. On other OS's, you would simply do the same thing. Once you
