@@ -50,15 +50,28 @@ const tmpl    = require('./constants.js');
   setup_msg_listener(clients, config);
 
   // Login to discord,
-  login(clients.dc.client, config.dc.token);
+  login(clients.dc.client, config.dc.token, config.dc.channel);
 }());
 
 
 // Function for logging in to discord,
-function login(client, token){
+function login(client, token, announce_channel){
 
   client.login(token).then(function(){
     logger(debug.inf, tmpl.cli_inf_auth_success);
+
+    // Handle exit,
+    process.on('SIGTERM', function(){
+      const channel = client.channels.find(ch => ch.name === announce_channel);
+
+      if (!channel){
+        logger(debug.err, tmpl.cli_err_channel_not_found
+                         .replace('{PH_ANNOUNCE_CHANNEL}', announce_channel));
+      }
+
+      channel.send(tmpl.cli_inf_exit_msg);
+    });
+
   }).catch(function(err){
     logger(debug.err, err);
   });

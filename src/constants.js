@@ -89,6 +89,7 @@ const cli_dbg_parse_cmd_try   = "Parsing command from string '{PH_STR}'."
 
 // Ifno messages,
 const cli_inf_auth_success = 'Successfully authenticated to Discord.'
+const cli_inf_exit_msg     = "Oh noes, I'm going offline. See you soon!";
 const cli_inf_ready        = "Bot recieved ready event from Discord server";
 const cli_inf_start        = "Starting bot.";
 const cli_inf_welcome_msg  = "Hello, my name is **{PH_BOTNAME}** and I just "    +
@@ -132,6 +133,7 @@ module.exports = {
   cli_err_unexpected_api_response,
 
   cli_inf_auth_success,
+  cli_inf_exit_msg,
   cli_inf_ready,
   cli_inf_start,
   cli_inf_welcome_msg,
