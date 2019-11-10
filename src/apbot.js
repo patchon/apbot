@@ -62,6 +62,7 @@ function login(client, token, announce_channel){
 
     // Handle exit,
     process.on('SIGTERM', function(){
+      logger(debug.inf, tmpl.cli_inf_exit_caught);
       const channel = client.channels.find(ch => ch.name === announce_channel);
 
       if (!channel){
@@ -70,6 +71,10 @@ function login(client, token, announce_channel){
       }
 
       channel.send(tmpl.cli_inf_exit_msg);
+      setTimeout(() => {
+        logger(debug.dbg, tmpl.cli_dbg_exit_executed);
+        process.exit(0);
+      }, 5000);
     });
 
   }).catch(function(err){

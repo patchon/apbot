@@ -71,24 +71,26 @@ const bot_cmd_issue_success   = "Successfully created the GitHub issue 👌";
 
 // Debug messages
 const cli_dbg_channel_botname = "Found channel '#{PH_CHANNEL}' and my name is "+
-                                "'{PH_BOTNAME}'."
-const cli_dbg_env_msg         = "Environment variable '{PH_ENV}' is set to '{PH_VAL}'."
-const cli_dbg_env_chk         = "Checking needed environment variables."
-const cli_dbg_env_fail        = "Preflight tests did not succeed, aborting."
+                                "'{PH_BOTNAME}'.";
+const cli_dbg_env_msg         = "Environment variable '{PH_ENV}' is set to '{PH_VAL}'.";
+const cli_dbg_env_chk         = "Checking needed environment variables.";
+const cli_dbg_env_fail        = "Preflight tests did not succeed, aborting.";
 
-const cli_dbg_parse_arg_none  = "No arguments could be parsed."
+const cli_dbg_exit_executed   = "Executed exit after 5 seconds.";
+
+const cli_dbg_parse_arg_none  = "No arguments could be parsed.";
 const cli_dbg_parse_arg_retry = "Splitted string on \", yields zero results, "   +
                                 "trying on space instead - may lead to unwanted "+
                                 "behaviour.";
-const cli_dbg_parse_arg_res   = "Parsed following arguments '{PH_ARGS}'."
-const cli_dbg_parse_arg_try   = "Parsing arguments from string '{PH_STR}'."
+const cli_dbg_parse_arg_res   = "Parsed following arguments '{PH_ARGS}'.";
+const cli_dbg_parse_arg_try   = "Parsing arguments from string '{PH_STR}'.";
 
-const cli_dbg_parse_cmd_res   = "Parsed the following command '{PH_CMD}'."
-const cli_dbg_parse_cmd_try   = "Parsing command from string '{PH_STR}'."
-
+const cli_dbg_parse_cmd_res   = "Parsed the following command '{PH_CMD}'.";
+const cli_dbg_parse_cmd_try   = "Parsing command from string '{PH_STR}'.";
 
 // Ifno messages,
-const cli_inf_auth_success = 'Successfully authenticated to Discord.'
+const cli_inf_auth_success = 'Successfully authenticated to Discord.';
+const cli_inf_exit_caught  = 'Caught SIGTERM.';
 const cli_inf_exit_msg     = "Oh noes, I'm going offline. See you soon!";
 const cli_inf_ready        = "Bot recieved ready event from Discord server";
 const cli_inf_start        = "Starting bot.";
@@ -99,8 +101,8 @@ const cli_inf_welcome_msg  = "Hello, my name is **{PH_BOTNAME}** and I just "   
 // Error messages,
 const cli_err_channel_not_found       = "Could not find channel specified in "  +
                                         "environment variable 'DISCORD_CHANNEL'"+
-                                        "({PH_ANNOUNCE_CHANNEL})."
-const cli_err_env_msg                 = "Environment variable '{PH_ENV}' not set."
+                                        "({PH_ANNOUNCE_CHANNEL}).";
+const cli_err_env_msg                 = "Environment variable '{PH_ENV}' not set.";
 const cli_err_unexpected_api_response = "Unexpected response from Dicord API.";
 
 
@@ -120,6 +122,8 @@ module.exports = {
   cli_dbg_env_chk,
   cli_dbg_env_fail,
 
+  cli_dbg_exit_executed,
+
   cli_dbg_parse_arg_none,
   cli_dbg_parse_arg_retry,
   cli_dbg_parse_arg_res,
@@ -133,6 +137,7 @@ module.exports = {
   cli_err_unexpected_api_response,
 
   cli_inf_auth_success,
+  cli_inf_exit_caught,
   cli_inf_exit_msg,
   cli_inf_ready,
   cli_inf_start,
